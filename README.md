@@ -11,8 +11,10 @@ A small, production‑minded evaluation harness you can use to assess rule/LLM o
 > No external services required by default. The included `ModelClient` is a mock to keep everything offline and PHI‑free. Swap it with a real API call when ready.
 
 ## Quickstart
+
+From repo root (no PHI in test data):
+
 ```bash
-# From repo root (no PHI in test data)
 python -m src.run_eval \
   --test-cases data/test_cases.csv \
   --gold data/gold.csv \
