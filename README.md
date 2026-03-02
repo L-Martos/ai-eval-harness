@@ -41,6 +41,9 @@ python -m src.run_eval --test-cases data/test_cases.csv --gold data/gold.csv --o
 - **Recall (per label)**: Of all cases that *should* be this label, how many the model found.
 - **F1**: Harmonic mean of precision and recall (balances the two).
 
+### Scenario Slices
+The harness also reports metrics by `scenario` (e.g., `supply_present`, `post_required`, `ambiguous`) in `metrics.json` → `by_scenario`. This helps isolate false positives/negatives to specific conditions and write targeted acceptance criteria.
+
 ### How I use this in UAT / tickets
 1) Run the harness on a fixed test set.
 2) If **accuracy < target** or a label’s **F1** is low, open a defect with:
