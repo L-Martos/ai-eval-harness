@@ -50,3 +50,6 @@ The harness also reports metrics by `scenario` (e.g., `supply_present`, `post_re
    - failing `case_id`s from `out/evaluation_report.csv`
    - the per‑label metrics from `out/metrics.json`
 3) Re-run after fixes and attach the updated artifacts.
+
+### Defect Export
+If any cases fail, the harness writes `out/jira_defects.csv` with the minimal fields needed to open a defect (case_id, scenario, expected vs predicted, input_text). Attach this file to tickets for faster triage.
