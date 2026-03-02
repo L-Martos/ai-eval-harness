@@ -1,7 +1,6 @@
-```csv
-case_id,input_text,expected_label
-1,"supply present; condition met for ignore",IGNORE
-2,"no supply present; should post",POST
-3,"supply present with unrelated note",IGNORE
-4,"ambiguous text; default to review",REVIEW
-5,"post needed; explicit instruction",POST
+case_id,scenario,input_text,expected_label
+1,supply_present,"supply present; condition met for ignore",IGNORE
+2,post_required,"no supply present; should post",POST
+3,supply_present,"supply present with unrelated note",IGNORE
+4,ambiguous,"ambiguous text; default to review",REVIEW
+5,post_required,"post needed; explicit instruction",POST
