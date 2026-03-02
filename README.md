@@ -13,7 +13,7 @@ A small, production‑minded evaluation harness you can use to assess rule/LLM o
 ## Quickstart
 ```bash
 # From repo root (no PHI in test data)
-python src/run_eval.py \
+python -m src.run_eval \
   --test-cases data/test_cases.csv \
   --gold data/gold.csv \
   --out-dir out
