@@ -33,3 +33,17 @@ python -m src.run_eval --test-cases data/test_cases.csv --gold data/gold.csv --o
     "REVIEW": { "precision": 1.0, "recall": 1.0, "f1": 1.0 }
   }
 }
+
+## Interpreting Metrics
+
+- **Accuracy**: % of all cases where predicted label == expected (`gold`) label.
+- **Precision (per label)**: Of what the model predicted as this label, how many were actually correct.
+- **Recall (per label)**: Of all cases that *should* be this label, how many the model found.
+- **F1**: Harmonic mean of precision and recall (balances the two).
+
+### How I use this in UAT / tickets
+1) Run the harness on a fixed test set.
+2) If **accuracy < target** or a label’s **F1** is low, open a defect with:
+   - failing `case_id`s from `out/evaluation_report.csv`
+   - the per‑label metrics from `out/metrics.json`
+3) Re-run after fixes and attach the updated artifacts.
