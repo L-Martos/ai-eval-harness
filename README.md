@@ -17,3 +17,19 @@ python src/run_eval.py \
   --test-cases data/test_cases.csv \
   --gold data/gold.csv \
   --out-dir out
+
+## Sample Output
+
+Running:
+
+```bash
+python -m src.run_eval --test-cases data/test_cases.csv --gold data/gold.csv --out-dir out
+
+{
+  "accuracy": 0.8,
+  "per_label": {
+    "IGNORE": {"precision": 1.0, "recall": 1.0, "f1": 1.0},
+    "POST": {"precision": 1.0, "recall": 0.5, "f1": 0.66},
+    "REVIEW": { "precision": 1.0, "recall": 1.0, "f1": 1.0 }
+  }
+}
