@@ -76,3 +76,19 @@ def run_evaluation(test_cases_path: str, gold_path: str, out_dir: str):
             w.writerow(r)
 
     return metrics
+
+# Create a Jira-ready defects CSV when there are mismatches
+    defects = [r for r in rows if r['match'] != 'True']
+    if defects:
+        defects_path = os.path.join(out_dir, 'jira_defects.csv')
+        with open(defects_path, 'w', newline='', encoding='utf-8') as f:
+            w = csv.DictWriter(f, fieldnames=['case_id', 'scenario', 'gold_label', 'pred_label', 'input_text'])
+            w.writeheader()
+            for d in defects:
+                w.writerow({
+                    'case_id': d['case_id'],
+                    'scenario': d.get('scenario', ''),
+                    'gold_label': d['gold_label'],
+                    'pred_label': d['pred_label'],
+                    'input_text': d['input_text']
+                })
