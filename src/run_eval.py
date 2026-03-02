@@ -13,3 +13,8 @@ def main():
 
 if __name__ == '__main__':
     main()
+# BEFORE
+from evaluator import run_evaluation
+
+# AFTER
+from src.evaluator import run_evaluation
