@@ -26,34 +26,51 @@ def run_evaluation(test_cases_path: str, gold_path: str, out_dir: str):
     client = ModelClient()
 
     y_true, y_pred, rows = [], [], []
+    scenarios = {}  # scenario -> list of (true, pred)
+
     for c in cases:
         cid = c['case_id']
         inp = c['input_text']
+        scenario = c.get('scenario', 'unspecified')
         pred = client.predict(inp)
         true = gold.get(cid)
         y_true.append(true)
         y_pred.append(pred)
         rows.append({
             'case_id': cid,
+            'scenario': scenario,
             'input_text': inp,
             'gold_label': true,
             'pred_label': pred,
             'match': str(true == pred)
         })
+        scenarios.setdefault(scenario, {'y_true': [], 'y_pred': []})
+        scenarios[scenario]['y_true'].append(true)
+        scenarios[scenario]['y_pred'].append(pred)
 
+    # Global metrics
     labels, cm = confusion_matrix(y_true, y_pred)
     pr = precision_recall_f1(y_true, y_pred)
     metrics = {
         'labels': labels,
         'confusion_matrix': cm,
-        'summary': pr
+        'summary': pr,
+        'by_scenario': {}
     }
 
+    # Scenario metrics
+    for scn, pairs in scenarios.items():
+        scn_pr = precision_recall_f1(pairs['y_true'], pairs['y_pred'])
+        metrics['by_scenario'][scn] = scn_pr
+
+    # Write outputs
     with open(os.path.join(out_dir, 'metrics.json'), 'w', encoding='utf-8') as f:
         json.dump(metrics, f, indent=2)
 
+    # Row-level report
     with open(os.path.join(out_dir, 'evaluation_report.csv'), 'w', newline='', encoding='utf-8') as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        fieldnames = list(rows[0].keys())
+        w = csv.DictWriter(f, fieldnames=fieldnames)
         w.writeheader()
         for r in rows:
             w.writerow(r)
